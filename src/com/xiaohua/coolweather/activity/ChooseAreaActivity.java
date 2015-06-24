@@ -36,6 +36,8 @@ public class ChooseAreaActivity extends Activity {
 	public static final int LEVEL_CITY = 1;
 	public static final int LEVEL_COUNTY = 2;
 	
+	private boolean isFromWeatherActivity;//是否从WeaherActivity中跳转过来的
+	
 	private ProgressDialog progressDialog;
 	private ListView listView;
 	private TextView titleText;
@@ -73,8 +75,11 @@ public class ChooseAreaActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		
+		isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity", false);
+		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		if(prefs.getBoolean("city_seleted", false)){
+		//已选择的城市不是从WeaherActivity中跳转过来的，才会直接跳转到WeatherActivity
+		if(prefs.getBoolean("city_seleted", false)&& !isFromWeatherActivity){
 			Intent intent = new Intent(this,WeatherActivity.class);
 			startActivity(intent);
 			finish();
@@ -256,6 +261,10 @@ public class ChooseAreaActivity extends Activity {
 		}else if(currentLevel == LEVEL_CITY){
 			queryProvinces();
 		}else{
+			if(isFromWeatherActivity){
+				Intent intent = new Intent(this, WeatherActivity.class);
+				startActivity(intent);
+			}
 			finish();
 		}
 		
