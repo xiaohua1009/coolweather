@@ -1,6 +1,7 @@
 package com.xiaohua.coolweather.activity;
 
 import com.xiaohua.coolweather.R;
+import com.xiaohua.coolweather.service.AutoUpdateService;
 import com.xiaohua.coolweather.util.HttpCallbackListener;
 import com.xiaohua.coolweather.util.HttpUtil;
 import com.xiaohua.coolweather.util.Utility;
@@ -168,6 +169,8 @@ public class WeatherActivity extends Activity implements OnClickListener {
 		currentDateText.setText(prefs.getString("current_date", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
+		Intent intent = new Intent(this, AutoUpdateService.class);
+		startService(intent);
 	}
 
 	@Override
